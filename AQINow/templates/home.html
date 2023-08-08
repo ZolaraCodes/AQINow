@@ -1,4 +1,3 @@
-
 {% extends 'base.html' %}
 
 {% block content %}
@@ -24,28 +23,19 @@
     </form>
     
     {% if api %}
-        {% if api == "Error..." %}
-            <p>There was an error, please try again...</p>
-        {% else %}
-            {% if api.ozone %}
-                <div class="jumbotron {% if 'Good' in api.ozone.Category.Name %}Good{% elif 'Moderate' in api.ozone.Category.Name %}Moderate{% endif %}">
-                    <h1 class="display-4">{{ api.ozone.ReportingArea }}</h1>
-                    <h2>Ozone AQI: {{ api.ozone.AQI }}</h2>
-                    <p>{{ api.ozone.Description }}</p>
-                </div>
-            {% endif %}
-
-            {% if api.pm25 %}
-                <div class="jumbotron {% if 'Good' in api.pm25.Category.Name %}Good{% elif 'Moderate' in api.pm25.Category.Name %}Moderate{% endif %}">
-                    <h1 class="display-4">{{ api.pm25.ReportingArea }}</h1>
-                    <h2>PM2.5 AQI: {{ api.pm25.AQI }}</h2>
-                    <p>{{ api.pm25.Description }}</p>
-                </div>
-            {% endif %}
-        {% endif %}
+        {% for data in api %}
+            <div class="jumbotron {% if 'Good' in data.CategoryName %}Good{% elif 'Moderate' in data.CategoryName %}Moderate{% elif 'UnhealthyForSensitiveGroups' in data.CategoryName %}UnhealthyForSensitiveGroups{% elif 'Unhealthy' in data.CategoryName %}Unhealthy{% elif 'VeryUnhealthy' in data.CategoryName %}VeryUnhealthy{% elif 'Hazardous' in data.CategoryName %}Hazardous{% endif %}">
+                <h1 class="display-4">{{ data.ReportingArea }} ({{ data.StateCode }})</h1>
+                <h2>{{ data.ParameterName }} AQI: {{ data.AQI }}</h2>
+                <h2>Category: {{ data.CategoryName }}</h2>
+                <h2>{{ data.Description }}</h2>
+               
+            </div>
+        {% endfor %}
     {% else %}
         <p>No AQI data available</p>
     {% endif %}
 </body>
 {% endblock %}
 </html>
+
