@@ -1,0 +1,51 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<head>
+    <title>AQINow</title>
+    
+    <style>
+        .Good {background-color: #0C0;}
+        .Moderate {background-color: #FFFF00;}
+        .UnhealthyForSensitiveGroups {background-color: #FF9900;}
+        .Unhealthy {background-color: #FF0000;}
+        .VeryUnhealthy {background-color: #990066;}
+        .Hazardous {background-color: #660000;}
+    </style>
+</head>
+<body>
+    <h1> What's My AQI </h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="zip_code">Enter ZIP Code:</label>
+        <input type="text" id="zip_code" name="zip_code">
+        <button type="submit">Check AQI</button>
+    </form>
+    
+    {% if api %}
+        {% if api == "Error..." %}
+            <p>There was an error, please try again...</p>
+        {% else %}
+            {% if api.ozone %}
+                <div class="jumbotron {% if 'Good' in api.ozone.Category.Name %}Good{% elif 'Moderate' in api.ozone.Category.Name %}Moderate{% endif %}">
+                    <h1 class="display-4">{{ api.ozone.ReportingArea }}</h1>
+                    <h2>Ozone AQI: {{ api.ozone.AQI }}</h2>
+                    <p>{{ api.ozone.Description }}</p>
+                </div>
+            {% endif %}
+
+            {% if api.pm25 %}
+                <div class="jumbotron {% if 'Good' in api.pm25.Category.Name %}Good{% elif 'Moderate' in api.pm25.Category.Name %}Moderate{% endif %}">
+                    <h1 class="display-4">{{ api.pm25.ReportingArea }}</h1>
+                    <h2>PM2.5 AQI: {{ api.pm25.AQI }}</h2>
+                    <p>{{ api.pm25.Description }}</p>
+                </div>
+            {% endif %}
+        {% endif %}
+    {% else %}
+        <p>No AQI data available</p>
+    {% endif %}
+</body>
+{% endblock %}
+</html>
