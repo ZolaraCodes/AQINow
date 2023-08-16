@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<head>
+    <title>AQINow</title>
+    
+    <style>
+      body {
+        background: linear-gradient(90deg, #0aeecf 0%, #948ed4 100%);
+      }
+      
+      .container {
+        display: flex;
+        flex-wrap: wrap; 
+        gap: 8%; 
+        margin-top: 5%;
+      }
+      
+      .jumbotron {
+        border: 1px solid #0d0c0c;
+        border-radius: 5px;
+        padding: 15px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        width: 300px; 
+        height: 300px;
+        font-size: 50px;
+        text-align: center;
+        margin:auto;
+      }
+      
+      .display-4 {
+        font-size: 25px;
+      }
+
+      h1 {
+        text-align: center;
+        margin-top: 25px;
+      }
+
+      form {
+        text-align: center;
+      }
+
+
+      h2{
+        font-size: 25px;
+      }
+      
+      form {
+        margin-top: 10%; 
+      }
+      
+      .Good { background-color: #0C0; }
+      .Moderate { background-color: #FFFF00; }
+      .UnhealthyForSensitiveGroups { background-color: #FF9900; }
+      .Unhealthy { background-color: #FF0000; }
+      .VeryUnhealthy { background-color: #990066; }
+      .Hazardous { background-color: #660000; }
+      
+      /* New styles for the parent container */
+      .aqi-info {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        margin-top: 2%;
+      }
+      
+      .ozone-aqi, .PM25-aqi {
+        font-size: 24px;
+        position: absolute;
+        top: -30px;
+       
+      }
+
+      .ozone-aqi {
+        left: 32%; 
+        margin-right: 10px; 
+    }
+    
+    .PM25-aqi {
+        right: 32%; 
+        margin-left: 10px; 
+    }
+
+    </style>
+</head>
+<body>
+    <h1>What's My AQI?</h1>
+   
+    <form method="post">
+        {% csrf_token %}
+        <label for="zip_code">Enter ZIP Code:</label>
+        <input type="text" id="zip_code" name="zip_code">
+        <button type="submit">Check AQI</button>
+    </form>
+    
+    <div class="container">
+        {% if api %}
+            {% for data in api %}
+                <div class="jumbotron {% if 'Good' in data.CategoryName %}Good{% elif 'Moderate' in data.CategoryName %}Moderate{% elif 'UnhealthyForSensitiveGroups' in data.CategoryName %}UnhealthyForSensitiveGroups{% elif 'Unhealthy' in data.CategoryName %}Unhealthy{% elif 'VeryUnhealthy' in data.CategoryName %}VeryUnhealthy{% elif 'Hazardous' in data.CategoryName %}Hazardous{% endif %}">
+                    <h2 class="display-4">{{ data.ReportingArea }} ({{ data.StateCode }})</h2>
+                   <h2>{{ data.ParameterName }} AQI: {{ data.AQI }}</h2>
+                    <h2>Category: {{ data.CategoryName }}</h2>
+                    <h2>{{ data.Description }}</h2>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No AQI data available</p>
+        {% endif %}
+    </div>
+    
+    <!-- Parent container for AQI info -->
+    <div class="aqi-info">
+        <div class="ozone-aqi">Ozone AQI</div>
+        <div class="PM25-aqi">PM2.5 AQI</div>
+    </div>
+</body>
+{% endblock %}
+</html>
