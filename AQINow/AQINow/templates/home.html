@@ -29,21 +29,18 @@
       }
       
       .display-4 {
-        font-size: 25px;
+        font-size: 20px;
       }
 
       h1 {
         text-align: center;
-        margin-top: 25px;
+        margin-top: 20px;
       }
-
+h2{
+  font-size:15px;
+}
       form {
         text-align: center;
-      }
-
-
-      h2{
-        font-size: 25px;
       }
       
       form {
@@ -62,26 +59,9 @@
         display: flex;
         justify-content: space-between;
         position: relative;
-        margin-top: 2%;
+        margin-top: 20px;
       }
-      
-      .ozone-aqi, .PM25-aqi {
-        font-size: 24px;
-        position: absolute;
-        top: -30px;
-       
-      }
-
-      .ozone-aqi {
-        left: 32%; 
-        margin-right: 10px; 
-    }
     
-    .PM25-aqi {
-        right: 32%; 
-        margin-left: 10px; 
-    }
-
     </style>
 </head>
 <body>
@@ -109,11 +89,8 @@
         {% endif %}
     </div>
     
-    <!-- Parent container for AQI info -->
-    <div class="aqi-info">
-        <div class="ozone-aqi">Ozone AQI</div>
-        <div class="PM25-aqi">PM2.5 AQI</div>
-    </div>
+
+   
 </body>
 {% endblock %}
 </html>

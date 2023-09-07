@@ -3,12 +3,12 @@ from django.shortcuts import render
 
 # Dictionary to map category names to descriptions
 category_descriptions = {
-    "Good": "(0-50) Air quality is satisfactory, and air pollution poses little or no risk.",
-    "Moderate": "(51-100) Air quality is acceptable. However, there may be a risk for some people, particularly those who are unusually sensitive to air pollution.",
-    "Unhealthy for Sensitive Groups": "(101-150) Members of sensitive groups may experience health effects. The general public is less likely to be affected.",
-    "Unhealthy": "(151-200) Some members of the general public may experience health effects; members of sensitive groups may experience more serious health effects.",
-    ".Very Unhealthy": "(201-300) Health alert: The risk of health effects is increased for everyone.",
-    ".Hazardous": "(301 and higher) Health warning of emergency conditions: everyone is more likely to be affected."
+    "Good": "(0-50) This air quality reading is satisfactory and poses little or no risk! Enjoy you day!",
+    "Moderate": "(51-100) Due to the risk of respiratory illness symptoms, sensitive groups should greatly reduce outdoor exercise. Avoid ventilating indoor spaces with outdoor air. Air purifiers should be turned on.",
+    "Unhealthy for Sensitive Groups": "(101-150) Everyone is at risk for eye, skin, and throat irritation as well as respiratory problems. greatly reduce or avoid outdoor exercise. Avoid ventilating indoor spaces with outdoor air.",
+    "Unhealthy": "(151-200) Increased likelihood of heart and lung aggravation as well as health impacts for everyone. Avoid and wear a pollution mask outdoors. Ventilation is discouraged. Air purifiers should be turned on.",
+    "Very Unhealthy": "(201-300) Everyone will be noticably affected. Avoid outdoor exercise and wear a pollution mask outdoors. Ventilation is discouraged. Air purifiers should be turned on.",
+    "Hazardous": "(301 and higher) Everyone is at high risk of experiencing strong irritation and negative health effects that could trigger cardiovascular and respiratory illnesses. Avoid exercise and remain indoors. wear a pollution mask outdoors. Air purifiers should be turned on."
 }
 
 def home(request):
@@ -29,6 +29,8 @@ def home(request):
                         'CategoryName': entry['Category']['Name'],
                         'AQI': entry['AQI'],
                         'Description': category_descriptions.get(entry['Category']['Name'], 'No description available')
+        
+            
                     })
 
     else:
